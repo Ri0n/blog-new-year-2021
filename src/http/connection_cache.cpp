@@ -42,7 +42,7 @@ connection_cache::call(beast::http::verb   method,
     auto my_executor = co_await net::this_coro::executor;
 
     // either call directly or via a spawned coroutine
-    co_return impl_->get_executor() != my_executor
+    co_return impl_->get_executor() == my_executor
         ? co_await op()
         : co_await net::co_spawn(impl_->get_executor(), op, net::use_awaitable);
 }
