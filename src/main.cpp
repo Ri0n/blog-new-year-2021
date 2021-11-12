@@ -54,7 +54,8 @@ crawl()
             net::co_spawn(
                 co_await net::this_coro::executor,
                 [&cache, url] { return visit_site(cache, url); },
-                [&](std::exception_ptr) {
+                [&](std::exception_ptr)
+                {
                     if (--pending_count == 0)
                         cv.cancel_one();
                 });

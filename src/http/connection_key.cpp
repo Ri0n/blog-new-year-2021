@@ -22,4 +22,4 @@ operator==(connection_key const &a, connection_key const &b)
     return a.as_tie() == b.as_tie();
 }
 
-}
+}   // namespace http

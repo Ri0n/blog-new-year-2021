@@ -94,7 +94,7 @@ namespace
 }   // namespace
 
 connection_cache_impl::connection_cache_impl(net::io_strand  exec,
-                                             ssl::context &  ssl_ctx,
+                                             ssl::context   &ssl_ctx,
                                              connect_options options)
 : exec_(std::move(exec))
 , ssl_ctx_(ssl_ctx)
@@ -109,7 +109,7 @@ connection_cache_impl::~connection_cache_impl() = default;
 
 net::awaitable< response_type >
 connection_cache_impl::call(verb                method,
-                            std::string const & url,
+                            std::string const  &url,
                             std::string         data,
                             beast::http::fields headers,
                             request_options     options)
@@ -134,9 +134,8 @@ connection_cache_impl::call(verb                method,
     request.set(beast::http::field::host, key.hostname);
     request.prepare_payload();
 
-    auto op = [&] {
-        return connection.connection->rest_call(request, options);
-    };
+    auto op = [&]
+    { return connection.connection->rest_call(request, options); };
 
     auto [ec, response] =
         connection.connection->get_executor() == exec_

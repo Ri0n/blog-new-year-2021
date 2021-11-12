@@ -11,7 +11,7 @@
 namespace http
 {
 connection_cache::connection_cache(net::any_io_executor const &exec,
-                                   ssl::context &              ssl_context,
+                                   ssl::context               &ssl_context,
                                    connect_options             options)
 : impl_(std::make_unique< connection_cache_impl >(net::to_io_executor(exec),
                                                   ssl_context,
@@ -23,13 +23,14 @@ connection_cache::~connection_cache() = default;
 
 net::awaitable< response_type >
 connection_cache::call(beast::http::verb   method,
-                       const std::string & url,
+                       const std::string  &url,
                        std::string         data,
                        beast::http::fields headers,
                        request_options     options)
 {
     // DRY - define an operation that performs the inner call.
-    auto op = [&] {
+    auto op = [&]
+    {
         return impl_->call(method,
                            url,
                            std::move(data),
